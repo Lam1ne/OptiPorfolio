@@ -1,0 +1,23 @@
+database:
+  type: sqlite
+  name: portfolio_optimizer.db
+
+logging:
+  level: INFO
+  file: logs/portfolio_optimizer.log
+
+optimization:
+  markowitz:
+    risk_free_rate: 0.02
+    max_iterations: 1000
+  black_litterman:
+    tau: 0.05
+    omega: 0.1
+
+data:
+  source: yahoo_finance
+  frequency: daily
+
+visualization:
+  show_plots: true
+  save_plots: false
