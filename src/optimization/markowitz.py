@@ -92,7 +92,6 @@ class MarkowitzOptimizer:
         
         optimal_weights = result['x']
         
-        # Format the output as a dictionary
         output = {
             'weights': pd.Series(optimal_weights, index=self.asset_names) if self.asset_names is not None else optimal_weights,
             'expected_return': self.portfolio_return(optimal_weights),
@@ -115,28 +114,22 @@ class MarkowitzOptimizer:
         pandas.DataFrame
             DataFrame containing return, volatility, and Sharpe ratio for each point
         """
-        # Get min and max returns for the range
         min_return = self.minimize_volatility()['expected_return']
         
-        # Find maximum return portfolio (100% in the best performing asset)
         max_return_idx = np.argmax(self.expected_returns)
         max_return = self.expected_returns[max_return_idx]
         
-        # Create range of target returns
         target_returns = np.linspace(min_return, max_return, points)
         efficient_portfolios = []
         
-        # Calculate optimal portfolio for each target return
         for target in target_returns:
             efficient_portfolio = self.minimize_volatility(target_return=target)
             efficient_portfolios.append(efficient_portfolio)
         
-        # Extract returns and volatilities
         returns = [p['expected_return'] for p in efficient_portfolios]
         volatilities = [p['volatility'] for p in efficient_portfolios]
         sharpe_ratios = [r/v for r, v in zip(returns, volatilities)]
         
-        # Create DataFrame with results
         return pd.DataFrame({
             'Return': returns,
             'Volatility': volatilities,
