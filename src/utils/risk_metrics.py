@@ -58,16 +58,13 @@ def calculate_maximum_drawdown(returns):
     float
         Maximum drawdown
     """
-    # Convert returns to cumulative returns
+    
     cum_returns = (1 + pd.Series(returns)).cumprod()
     
-    # Calculate running maximum
     running_max = cum_returns.cummax()
     
-    # Calculate drawdown
     drawdown = (cum_returns / running_max) - 1
     
-    # Get maximum drawdown
     max_drawdown = drawdown.min()
     
     return max_drawdown
