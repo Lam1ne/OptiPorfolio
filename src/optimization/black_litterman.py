@@ -56,16 +56,14 @@ class BlackLittermanModel:
         ndarray
             Posterior expected returns
         """
-        # Number of assets and views
+        
         n_assets = len(self.equil_returns)
         n_views = len(Q)
         
-        # If omega not provided, calculate it using the method in the paper
         if omega is None:
             omega = np.diag(np.dot(np.dot(P, self.cov_matrix), P.T)) * self.tau
             omega = np.diag(np.diag(omega))  # Just to ensure it's diagonal
         
-        # Calculate posterior mean
         term1 = np.linalg.inv(np.linalg.inv(self.tau * self.cov_matrix) + 
                              np.dot(P.T, np.dot(np.linalg.inv(omega), P)))
         term2 = (np.dot(np.linalg.inv(self.tau * self.cov_matrix), self.equil_returns) + 
@@ -133,7 +131,6 @@ class BlackLittermanModel:
         optimal_weights = self.optimize_portfolio(posterior_returns)
         
         if hasattr(self.equil_returns, 'index'):
-            # If we have asset names
             optimal_weights = pd.Series(optimal_weights, index=self.equil_returns.index)
         
         return {
