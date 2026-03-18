@@ -4,7 +4,7 @@ import yfinance as yf
 from datetime import datetime, timedelta
 
 class DataLoader:
-    """Class for loading and processing financial data."""
+    """Market data fetcher via Yahoo Finance API."""
     
     def __init__(self, symbols, start_date=None, end_date=None):
         """
