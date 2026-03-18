@@ -33,34 +33,27 @@ def plot_efficient_frontier(efficient_frontier, min_vol_portfolio=None, max_shar
     """
     plt.figure(figsize=(12, 8))
     
-    # Format the axes
     plt.gca().yaxis.set_major_formatter(FuncFormatter(lambda y, _: '{:.1%}'.format(y)))
     plt.gca().xaxis.set_major_formatter(FuncFormatter(lambda x, _: '{:.1%}'.format(x)))
     
-    # Plot efficient frontier
     plt.scatter(efficient_frontier['Volatility'], efficient_frontier['Return'], 
                 c=efficient_frontier['Sharpe'], cmap='viridis', s=30,
                 edgecolors='black', linewidth=0.5)
     
-    # Add colorbar
     cb = plt.colorbar()
     cb.set_label('Sharpe Ratio')
     
-    # Plot minimum volatility portfolio if provided
     if min_vol_portfolio is not None:
         plt.scatter(min_vol_portfolio['volatility'], min_vol_portfolio['expected_return'], 
                    marker='*', color='red', s=300, label='Minimum Volatility')
     
-    # Plot maximum Sharpe ratio portfolio if provided
     if max_sharpe_portfolio is not None:
         plt.scatter(max_sharpe_portfolio['Volatility'], max_sharpe_portfolio['Return'], 
                    marker='D', color='green', s=200, label='Maximum Sharpe')
     
-    # Plot individual assets if requested
     if show_assets and asset_returns is not None and asset_volatilities is not None:
         plt.scatter(asset_volatilities, asset_returns, marker='o', color='black', s=100)
         
-        # Add asset labels if provided
         if asset_names is not None:
             for i, name in enumerate(asset_names):
                 plt.annotate(name, (asset_volatilities[i], asset_returns[i]), 
@@ -72,7 +65,6 @@ def plot_efficient_frontier(efficient_frontier, min_vol_portfolio=None, max_shar
     plt.grid(True, linestyle='--', alpha=0.7)
     plt.legend()
     
-    # Save to file if filename provided
     if filename:
         plt.savefig(filename, dpi=300, bbox_inches='tight')
     
@@ -112,10 +104,8 @@ def plot_portfolio_weights(weights, title='Portfolio Weights', filename=None, so
     plt.grid(axis='y', linestyle='--', alpha=0.7)
     plt.xticks(rotation=45)
     
-    # Format y-axis as percentage
     plt.gca().yaxis.set_major_formatter(FuncFormatter(lambda y, _: '{:.1%}'.format(y)))
     
-    # Save to file if filename provided
     if filename:
         plt.savefig(filename, dpi=300, bbox_inches='tight')
     
